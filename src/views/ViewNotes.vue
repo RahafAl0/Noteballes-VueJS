@@ -27,10 +27,11 @@
 </template>
 
 <script setup>
-  import { ref, watch } from 'vue'
+  import { ref } from 'vue'
   import Note from '@/components/Notes/Note.vue'
   import AddEditNote from '@/components/Notes/AddEditNote.vue'
   import { useStoreNotes } from '@/stores/storeNotes'
+  import { useWatchChar } from "@/use/useWatchChar"
 
 
 
@@ -46,10 +47,6 @@
     addEditNoteRef.value.focusTextarea()
   }
 
-  watch(newNote, (newValue) => {
-    if (newValue.length === 100) {
-      alert('You have reached the maximum number of characters for a note! Only 100 characters are allowed.')
-    }
-  })
+  useWatchChar(newNote)
 
 </script>
