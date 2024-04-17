@@ -10,7 +10,7 @@
     </div>
     <footer class="card-footer">
       <a href="#" class="card-footer-item">Edit</a>
-      <a href="#" class="card-footer-item">Delete</a>
+      <a @click.prevent="handleeleteClicked" href="#" class="card-footer-item">Delete</a>
     </footer>
   </div>
 </template>
@@ -24,10 +24,17 @@ import { computed } from "vue"
     },
   })
 
+  const emit = defineEmits(['delete-note'])
+
   const characterLength = computed(() => {
     let length = props.note.content.length 
     let description = length > 1 ?
     ' characters' : ' character'
     return `${ length }${ description }` 
   })
+
+  const handleeleteClicked = () => {
+    emit('delete-note', props.note.id)
+  }
+
 </script>
