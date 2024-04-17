@@ -1,25 +1,20 @@
 <template>
-  <div
-    class="card p-4 mb-5"
-    :class="`has-background-${ bgColor }-dark`"
-  >
-    <label
-      v-if="label"
-      class="label has-text-white"
-    >
+  <div class="card p-4 mb-5" :class="`has-background-${bgColor}-dark`">
+    <label v-if="label" class="label has-text-white">
       {{ label }}
     </label>
 
     <div class="field">
       <div class="control">
         <textarea
-  :value="modelValue"
-  @input="$emit('update:modelValue', $event.target.value)"
-  class="textarea"
-  :placeholder="placeholder"
-  ref="textareaRef"
-/>
-
+          :value="modelValue"
+          @input="$emit('update:modelValue', $event.target.value)"
+          class="textarea"
+          :placeholder="placeholder"
+          ref="textareaRef"
+          maxlength="100"
+          v-autofocus
+        />
       </div>
     </div>
 
@@ -32,39 +27,36 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+import { ref } from "vue";
+import { vAutofocus } from "@/directives/vAutofocus";
 
-  const props = defineProps({
-    modelValue: {
-      type: String,
-      required: true
-    },
-    bgColor: {
-      type: String,
-      default: 'success'
-    },
-    placeholder: {
-      type: String,
-      default: 'Type something...'
-    },
-    label: {
-      type: String
-    }
-  })
+const props = defineProps({
+  modelValue: {
+    type: String,
+    required: true,
+  },
+  bgColor: {
+    type: String,
+    default: "success",
+  },
+  placeholder: {
+    type: String,
+    default: "Type something...",
+  },
+  label: {
+    type: String,
+  },
+});
 
+const emit = defineEmits(["update:modelValue"]);
 
+const textareaRef = ref(null);
 
-  const emit = defineEmits(['update:modelValue'])
+const focusTextarea = () => {
+  textareaRef.value.focus();
+};
 
-
-  const textareaRef = ref(null)
-
-  const focusTextarea = () => {
-    textareaRef.value.focus()
-  }
-
-  defineExpose({
-    focusTextarea
-  })
-
+defineExpose({
+  focusTextarea,
+});
 </script>

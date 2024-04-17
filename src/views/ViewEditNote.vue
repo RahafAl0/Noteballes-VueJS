@@ -6,6 +6,7 @@
       placeholder="Edit note"
       label="Edit Note"
       ref="addEditNoteRef"
+      v-autofocus
     >
       <template #buttons>
         <button
@@ -32,7 +33,6 @@
   import AddEditNote from '@/components/Notes/AddEditNote.vue'
   import { useStoreNotes } from '@/stores/storeNotes'
 
-
   const route = useRoute()
   const router = useRouter()
 
@@ -50,4 +50,6 @@
     router.push('/')
   }
 
-</script>
+  
+
+</script>   
