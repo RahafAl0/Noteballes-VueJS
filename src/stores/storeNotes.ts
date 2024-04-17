@@ -1,4 +1,3 @@
-// stores/counter.js
 import { defineStore } from "pinia";
 
 export const useStoreNotes = defineStore("storeNotes", {
@@ -18,8 +17,19 @@ export const useStoreNotes = defineStore("storeNotes", {
     };
   },
   actions: {
-    addNote() {
-      console.log("addNote");
+    addNote(newNoteContent: string) {
+      let currentDate = new Date().getTime(),
+        id = currentDate.toString();
+
+      let note = {
+        id,
+        content: newNoteContent,
+      };
+
+      this.notes.unshift(note);
     },
+    deleteNote(noteId: string) {
+      this.notes = this.notes.filter((note) => note.id !== noteId);
+    }
   },
 });

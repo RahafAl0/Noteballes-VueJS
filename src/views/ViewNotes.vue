@@ -15,7 +15,7 @@
       <div class="field is-grouped is-grouped-right">
         <div class="control">
           <button
-            @click="storeNotes.addNote"
+            @click="addNote"
             :disabled="!newNote"
             class="button is-link has-background-success"
           >
@@ -29,7 +29,6 @@
       v-for="note in storeNotes.notes" 
       :key="note.id" 
       :note="note" 
-      @delete-note="deleteNote"
     />
   </div>
 </template>
@@ -46,24 +45,10 @@
 
 
   const addNote = () => {
-
-    storeNotes.addNote()
-    // let currentDate = new Date().getTime(),
-    //   id = currentDate.toString();
-
-    // let note = {
-    //   id,
-    //   content: newNote.value,
-    // };
-
-    // notes.value.unshift(note);
-
-    newNote.value = "";
+    storeNotes.addNote(newNote.value)
+    newNote.value = ""
     newNoteRef.value.focus();
   };
 
-  const deleteNote = (id) => {
-    notes.value = notes.value.filter((note) => note.id !== id);
-  };
 
 </script>
