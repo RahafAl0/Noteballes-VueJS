@@ -15,7 +15,7 @@
       <div class="field is-grouped is-grouped-right">
         <div class="control">
           <button
-            @click="addNote"
+            @click="storeNotes.addNote"
             :disabled="!newNote"
             class="button is-link has-background-success"
           >
@@ -46,15 +46,17 @@
 
 
   const addNote = () => {
-    let currentDate = new Date().getTime(),
-      id = currentDate.toString();
 
-    let note = {
-      id,
-      content: newNote.value,
-    };
+    storeNotes.addNote()
+    // let currentDate = new Date().getTime(),
+    //   id = currentDate.toString();
 
-    notes.value.unshift(note);
+    // let note = {
+    //   id,
+    //   content: newNote.value,
+    // };
+
+    // notes.value.unshift(note);
 
     newNote.value = "";
     newNoteRef.value.focus();

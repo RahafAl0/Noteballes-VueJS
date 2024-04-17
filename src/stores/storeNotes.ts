@@ -1,9 +1,9 @@
 // stores/counter.js
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useStoreNotes = defineStore('storeNotes', {
+export const useStoreNotes = defineStore("storeNotes", {
   state: () => {
-    return { 
+    return {
       notes: [
         {
           id: "id1",
@@ -14,7 +14,12 @@ export const useStoreNotes = defineStore('storeNotes', {
           id: "id2",
           content: "short notes",
         },
-      ]
-    }
+      ],
+    };
   },
-})
+  actions: {
+    addNote() {
+      console.log("addNote");
+    },
+  },
+});
