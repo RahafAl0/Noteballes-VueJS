@@ -1,35 +1,55 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-export const useStoreNotes = defineStore("storeNotes", {
+export const useStoreNotes = defineStore('storeNotes', {
   state: () => {
-    return {
+    return { 
       notes: [
         {
-          id: "id1",
-          content:
-            "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem ipsa commodi sint ut ullam culpa nulla molestiae sunt quia qui maxime.",
+          id: 'id1',
+          content: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem ipsa commodi sint ut ullam culpa nulla molestiae sunt quia qui maxime.'
         },
         {
-          id: "id2",
-          content: "short notes",
-        },
-      ],
-    };
+          id: 'id2',
+          content: 'This is a shorter note! Woo!'
+        }
+      ]
+    }
   },
   actions: {
-    addNote(newNoteContent: string) {
+    addNote(newNoteContent) {
       let currentDate = new Date().getTime(),
-        id = currentDate.toString();
+          id = currentDate.toString()
 
       let note = {
         id,
-        content: newNoteContent,
-      };
+        content: newNoteContent
+      }
 
-      this.notes.unshift(note);
+      this.notes.unshift(note)
     },
-    deleteNote(noteId: string) {
-      this.notes = this.notes.filter((note) => note.id !== noteId);
+    deleteNote(idToDelete) {
+      this.notes = this.notes.filter(note => note.id !== idToDelete )
+    },
+    updateNote(id, content) {
+      let index = this.notes.findIndex(note => note.id === id )
+      this.notes[index].content = content
     }
   },
-});
+  getters: {
+    getNoteContent: (state) => {
+      return (id) => {
+        return state.notes.filter(note => note.id === id )[0].content
+      }
+    },
+    totalNotesCount: (state) => {
+      return state.notes.length
+    },
+    totalCharactersCount: (state) => {
+      let count = 0
+      state.notes.forEach(note => {
+        count += note.content.length
+      })
+      return count
+    }
+  }
+})
