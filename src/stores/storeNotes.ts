@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { db } from '@/ts/firebase'
 
 export const useStoreNotes = defineStore('storeNotes', {
   state: () => {
@@ -16,7 +17,7 @@ export const useStoreNotes = defineStore('storeNotes', {
     }
   },
   actions: {
-    addNote(newNoteContent) {
+    addNote(newNoteContent: string) {
       let currentDate = new Date().getTime(),
           id = currentDate.toString()
 
@@ -27,17 +28,17 @@ export const useStoreNotes = defineStore('storeNotes', {
 
       this.notes.unshift(note)
     },
-    deleteNote(idToDelete) {
+    deleteNote(idToDelete: string) {
       this.notes = this.notes.filter(note => note.id !== idToDelete )
     },
-    updateNote(id, content) {
+    updateNote(id: string | string[], content: string) {
       let index = this.notes.findIndex(note => note.id === id )
       this.notes[index].content = content
     }
   },
   getters: {
     getNoteContent: (state) => {
-      return (id) => {
+      return (id: string) => {
         return state.notes.filter(note => note.id === id )[0].content
       }
     },
