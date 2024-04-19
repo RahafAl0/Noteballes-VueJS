@@ -10,6 +10,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { db } from "@/ts/firebase";
+import { set } from "firebase/database";
 
 const notesCollectionRef = collection(db, "notes");
 const notesCollectionQuery = query(notesCollectionRef, orderBy("date", "desc"));
@@ -27,10 +28,12 @@ export const useStoreNotes = defineStore("useStoreNotes", {
         //   content: 'This is a shorter note! Woo!'
         // }
       ],
+      notesLoaded: false,
     };
   },
   actions: {
     async getNotes() {
+      this.notesLoaded = false;
       onSnapshot(notesCollectionQuery, (querySnapshot: any) => {
         let notes: any = [];
         querySnapshot.forEach((doc: any) => {
@@ -41,17 +44,19 @@ export const useStoreNotes = defineStore("useStoreNotes", {
           };
           notes.push(note);
         });
-        this.notes = notes;
+        setTimeout(() => {
+          this.notes = notes;
+          this.notesLoaded = true;
+        }, 2000);
       });
     },
     async addNote(newNoteContent: string) {
       let currentDate = new Date().getTime(),
         date = currentDate.toString();
 
-
       await addDoc(notesCollectionRef, {
         content: newNoteContent,
-        date
+        date,
       });
     },
     async deleteNote(idToDelete: string) {
