@@ -35,22 +35,26 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import Note from "@/components/Notes/Note.vue";
-import AddEditNote from "@/components/Notes/AddEditNote.vue";
-import { useStoreNotes } from "@/stores/storeNotes";
-import { useWatchChar } from "@/use/useWatchChar";
+  import { ref, onMounted} from "vue";
+  import Note from "@/components/Notes/Note.vue";
+  import AddEditNote from "@/components/Notes/AddEditNote.vue";
+  import { useStoreNotes } from "@/stores/storeNotes";
+  import { useWatchChar } from "@/use/useWatchChar";
 
-const storeNotes = useStoreNotes();
+  const storeNotes = useStoreNotes();
 
-const newNote = ref("");
-const addEditNoteRef = ref(null);
+  const newNote = ref("");
+  const addEditNoteRef = ref(null);
 
-const addNote = () => {
-  storeNotes.addNote(newNote.value);
-  newNote.value = "";
-  addEditNoteRef.value.focusTextarea();
-};
+  const addNote = () => {
+    storeNotes.addNote(newNote.value);
+    newNote.value = "";
+    addEditNoteRef.value.focusTextarea();
+  };
 
-useWatchChar(newNote);
+  useWatchChar(newNote);
+
+  onMounted(() => {
+    storeNotes.getNotes();
+  });
 </script>

@@ -1,19 +1,13 @@
 <template>
-  <nav
-    class="navbar is-success"
-    aria-label="main navigation"
-    role="navigation"
-  >
+  <nav class="navbar is-success" aria-label="main navigation" role="navigation">
     <div class="container is-max-desktop px-2">
       <div class="navbar-brand">
-        <div class="navbar-item is-size-4 is-family-monospace">
-          Noteballs
-        </div>
+        <div class="navbar-item is-size-4 is-family-monospace">Noteballs</div>
 
         <a
           @click.prevent="showMobileNav = !showMobileNav"
           class="navbar-burger"
-          :class="{ 'is-active' : showMobileNav }"
+          :class="{ 'is-active': showMobileNav }"
           aria-expanded="false"
           aria-label="menu"
           data-target="navbarBasicExample"
@@ -29,12 +23,16 @@
       <div
         id="navbarBasicExample"
         class="navbar-menu"
-        :class="{ 'is-active' : showMobileNav }"
+        :class="{ 'is-active': showMobileNav }"
         ref="navbarMenuRef"
       >
         <div class="navbar-start">
-          <button class="button is-small is-info mt-3 ml-3">
-            Log out
+          <button
+            v-if="storeAuth.user.id"
+            @click="logout"
+            class="button is-small is-info mt-3 ml-3"
+          >
+            Log out {{ storeAuth.user.email }}
           </button>
         </div>
         <div class="navbar-end">
@@ -61,22 +59,31 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
-  import { onClickOutside } from '@vueuse/core'
+  import { ref } from "vue";
+  import { onClickOutside } from "@vueuse/core";
+  import { useStoreAuth } from "@/stores/storeAuth";
 
+  const storeAuth = useStoreAuth();
 
-  const showMobileNav = ref(false)
+  const showMobileNav = ref(false);
 
+  const navbarMenuRef = ref(null);
+  const navbarBurgerRef = ref(null);
 
-  const navbarMenuRef = ref(null)
-  const navbarBurgerRef = ref(null)
+  onClickOutside(
+    navbarMenuRef,
+    () => {
+      showMobileNav.value = false;
+    },
+    {
+      ignore: [navbarBurgerRef],
+    }
+  );
 
-  onClickOutside(navbarMenuRef, () => {
-    showMobileNav.value = false
-  }, {
-    ignore: [navbarBurgerRef]
-  })
-
+  const logout = () => {
+    showMobileNav.value = false;
+    storeAuth.logoutUser();
+  };
 </script>
 
 <style>
